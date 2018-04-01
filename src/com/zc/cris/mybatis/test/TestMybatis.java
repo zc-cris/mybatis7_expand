@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.SynchronousQueue;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -136,7 +137,58 @@ class TestMybatis {
 		for (int i : pageNum) {
 			System.out.println(i);
 		}
-
+	}
+	
+	/*
+	 * 测试mybatis 的批量处理功能
+	 */
+	@Test
+	void testBatch() throws IOException {
+		// 获取普通session
+//		SqlSession session = getSession();
+		
+		// 获取批处理session（实际是批处理executor）
+		SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+		SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
+		EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 1000; i++) {
+			mapper.addEmp(new Employee(null,"名字", '1', "邮箱"));
+		}
+		session.commit();
+		long end = System.currentTimeMillis();
+		// 共耗时：2787(非批量处理流程：预编译sql--设置参数--执行sql)1000次流程
+		// 共耗时：758（批处理流程：预编译sql一次--设置参数1000次---执行一次）
+		System.out.println("共耗时："+ (end - start));
+		
+	}
+	
+	/*
+	 * mybatis 如何调用存储过程（以oracle 的分页查询为例）
+	 * oracle 创建存储过程语句：
+	 * 		create or replace procedure
+	 * 				page_query(
+	 * 					p_start in int, p_end in int, p_count out int, p_emps out sys_refcursor
+	 * 			) as
+	 * 		begin
+	 * 				select count(*) into p_count from employees;
+	 * 				open p_emps for
+	 * 					select * from (select rownum rn, e.* from employees e where rownum <= p_end)
+	 * 					where rn>=p_start;
+	 * 		end page_query;
+	 */
+	@Test
+	void testProcedure() throws IOException {
+		
+		SqlSession session = getSession();
+		EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+		com.zc.cris.mybatis.bean.Page page = new com.zc.cris.mybatis.bean.Page();
+		page.setStart(1);
+		page.setEnd(5);
+		mapper.getPageByProcedure(page);
+		System.out.println("总记录数："+page.getTotalCount());
+		System.out.println("查出的数据："+page.getEmps());
+		
 	}
 
 }

@@ -64,6 +64,8 @@ public class Employee implements Serializable {
 		return "Employee [id=" + id + ", name=" + name + ", gender=" + gender + ", email=" + email + "]";
 	}
 
+	
+	
 	public Employee(Integer id, String name, Character gender, String email) {
 		super();
 		this.id = id;
@@ -85,5 +87,7 @@ public class Employee implements Serializable {
 		this.email = email;
 		this.department = department;
 	}
+
+	
 
 }
