@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 名称空间为接口的全类名 -->
+<mapper namespace="com.zc.cris.mybatis.dao.DepartmentMapper">
+	<!-- 引用其他名称空间的ehcache 缓存 -->
+	<cache-ref namespace="com.zc.cris.mybatis.dao.EmployeeMapper"></cache-ref>
+
+</mapper>
