@@ -30,9 +30,18 @@
 		<!-- 批量起别名的情况下，使用@Alias 注解为某个指定的类型起新的别名 -->
 	</typeAliases>
 	
-	<!-- 注册自定义的类型处理器 -->
+	<!-- 1. 注册自定义的类型处理器 -->
+	<!--2、也可以在处理某个字段的时候告诉MyBatis用什么类型处理器（了解）
+				保存：#{empStatus,typeHandler=com.zc.cris.mybatis.typeHandler.MyEnumTypeHandler}
+				查询：
+					<resultMap type="com.atguigu.mybatis.bean.Employee" id="MyEmp">
+				 		<id column="id" property="id"/>
+				 		<result column="empStatus" property="empStatus" typeHandler="com.zc.cris.mybatis.typeHandler.MyEnumTypeHandler"/>
+				 	</resultMap>
+				注意：如果在参数位置修改TypeHandler，应该保证保存数据和查询数据用的TypeHandler是一样的。
+		  -->
 	<typeHandlers>
-		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" 
+		<typeHandler handler="com.zc.cris.mybatis.typeHandler.MyEnumTypeHandler" 
 		javaType="com.zc.cris.mybatis.bean.EmpStatus"/>
 	</typeHandlers>
 

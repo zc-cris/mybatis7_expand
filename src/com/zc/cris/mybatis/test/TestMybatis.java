@@ -219,6 +219,22 @@ class TestMybatis {
 		session.commit();
 	}
 	
+	/*
+	 * 测试自定义的枚举类型处理器
+	 */
+	@Test
+	void testMyEnumHandler() throws IOException {
+		SqlSession session = getSession();
+		EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+//		Employee employee = new Employee(null, "拉克丝", '0', "123@qq.com");
+//		mapper.addEmp(employee);
+//		System.out.println(employee.getId());
+		Employee emp = mapper.getById(1024);
+		System.out.println(emp.getStatus().getMsg());
+		session.commit();
+	}
+	
+	
 	
 	
 	

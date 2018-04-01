@@ -21,7 +21,7 @@
 	<select id="getById" resultType="com.zc.cris.mybatis.bean.Employee"
 		databaseId="mysql">
 		select
-		id,name,email,gender from tb_employee where id =
+		id,name,email,gender,emp_status from tb_employee where id =
 		#{id}
 	</select>
 
