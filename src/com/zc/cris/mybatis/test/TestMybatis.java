@@ -20,6 +20,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zc.cris.mybatis.bean.Department;
+import com.zc.cris.mybatis.bean.EmpStatus;
 import com.zc.cris.mybatis.bean.Employee;
 import com.zc.cris.mybatis.dao.DepartmentMapper;
 import com.zc.cris.mybatis.dao.EmployeeMapper;
@@ -190,5 +191,41 @@ class TestMybatis {
 		System.out.println("查出的数据："+page.getEmps());
 		
 	}
+	
+	/*
+	 * 如何使用java 的枚举
+	 */
+	@Test
+	void testEnum() {
+		EmpStatus empStatus = EmpStatus.logout;
+		// 枚举实例的名字
+		System.out.println(empStatus.name());
+		// 枚举实例的索引（0开始）
+		System.out.println(empStatus.ordinal());
+	}
+	
+	/*
+	 * 测试mybatis 如何处理枚举类型的数据
+	 * 默认mybatis 使用EnumTypeHandler 处理枚举类型数据，即保存到数据库为枚举实例的名字
+	 * 如果需要使用 EnumOrdinalTypeHandler 处理枚举数据，即保存到数据库为枚举的索引，需要在mybatis 的总配置文件设置
+	 */
+	@Test
+	void testEnumHandler() throws IOException {
+		SqlSession session = getSession();
+		EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+		Employee employee = new Employee(null, "泷泽萝拉", '0', "123@qq.com");
+		mapper.addEmp(employee);
+		System.out.println(employee.getId());
+		session.commit();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

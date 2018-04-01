@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.apache.ibatis.type.Alias;
 
-@Alias("emp")
 public class Employee implements Serializable {
 
 	/**
@@ -18,6 +17,16 @@ public class Employee implements Serializable {
 	private Character gender;
 	private String email;
 	private Department department;
+	// 定义用户的状态，默认是未登录的
+	private EmpStatus status = EmpStatus.logout;
+
+	public EmpStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EmpStatus status) {
+		this.status = status;
+	}
 
 	public Department getDepartment() {
 		return department;
@@ -64,8 +73,6 @@ public class Employee implements Serializable {
 		return "Employee [id=" + id + ", name=" + name + ", gender=" + gender + ", email=" + email + "]";
 	}
 
-	
-	
 	public Employee(Integer id, String name, Character gender, String email) {
 		super();
 		this.id = id;
@@ -87,7 +94,5 @@ public class Employee implements Serializable {
 		this.email = email;
 		this.department = department;
 	}
-
-	
 
 }

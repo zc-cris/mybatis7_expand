@@ -32,10 +32,10 @@
 	</select>
 
 	<!-- public void addEmp(Employee employee); -->
-	<insert id="addEmp">
+	<insert id="addEmp" useGeneratedKeys="true" keyProperty="id">
 		insert into
-		tb_employee (name,email,gender) values
-		(#{name},#{email},#{gender})
+		tb_employee (name,email,gender,emp_status) values
+		(#{name},#{email},#{gender},#{status})
 	</insert>
 	
 	

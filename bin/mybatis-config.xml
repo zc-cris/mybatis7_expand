@@ -4,10 +4,10 @@
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-	
-
 	<!-- 1. mybatis可以使用 properties 标签来引入外部的资源文件 resource：引入类路径下的资源文件 url：引入网路或者磁盘下的资源文件 -->
 	<properties resource="db.properties"></properties>
+	
+	
 
 	<!-- 2. settings 标签包含了很多重要的mybatis运行信息 setting：表示每一个设置项 name：设置名 value:设置项的取值 -->
 	<settings>
@@ -29,6 +29,12 @@
 		<package name="com.zc.cris.mybatis.bean" />
 		<!-- 批量起别名的情况下，使用@Alias 注解为某个指定的类型起新的别名 -->
 	</typeAliases>
+	
+	<!-- 注册自定义的类型处理器 -->
+	<typeHandlers>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" 
+		javaType="com.zc.cris.mybatis.bean.EmpStatus"/>
+	</typeHandlers>
 
 	<!-- 4. environments: mybatis可以配置多种环境，default可以指定使用某种环境，以便达到快速切换环境的目的 environment：代表具体的mybatis运行环境，id表示当前环境的唯一标示，用于上面的default属性值，且该标签必须使用两个子标签 
 		transactionManager：事务管理器 type：事务管理器的类型，一般使用 JDBC dataSource：数据源 type：数据源类型，一般使用 
